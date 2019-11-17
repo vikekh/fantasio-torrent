@@ -19,7 +19,7 @@ services:
 
   transmission-rss:
     build:
-      context: ../transmission-rss
+      context: ./transmission-rss
       dockerfile: Dockerfile
       args:
         - UID=${PUID}

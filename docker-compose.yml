@@ -18,12 +18,7 @@ services:
     restart: unless-stopped
 
   transmission-rss:
-    build:
-      context: ./transmission-rss
-      dockerfile: Dockerfile
-      args:
-        - UID=${PUID}
-        - GID=${PGID}
+    image: nning2/transmission-rss
     volumes:
       - ./.transmission-rss/config/transmission-rss.conf:/etc/transmission-rss.conf
     restart: unless-stopped

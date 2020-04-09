@@ -2,23 +2,42 @@ version: "3.7"
 
 services:
   transmission:
-    image: linuxserver/transmission
+    #image: linuxserver/transmission
+    image: haugene/transmission-openvpn
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - TRANSMISSION_WEB_HOME=/transmission-web-control/
+      #- TRANSMISSION_WEB_HOME=/transmission-web-control/
+      - TRANSMISSION_WEB_UI=transmission-web-control
+      - TRANSMISSION_DOWNLOAD_DIR=/downloads
+      - CREATE_TUN_DEVICE=true
+      - OPENVPN_PROVIDER=${OPENVPN_PROVIDER}
+      - OPENVPN_CONFIG=${OPENVPN_CONFIG}
+      - OPENVPN_USERNAME=${OPENVPN_USERNAME}
+      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
+      - WEBPROXY_ENABLED=false
+      - LOCAL_NETWORK=192.168.0.0/16
     volumes:
-      - ./.transmission/config:/config
+      - ./.transmission/config:/data/transmission-home
       - ${TRANSMISSION_DOWNLOADS_DIR}:/downloads
+      #- ${TRANSMISSION_DOWNLOADS_DIR}:/data/completed
+      - /etc/localtime:/etc/localtime:ro
+      - ./mullvad_se-got_udp.ovpn:/etc/openvpn/mullvad/mullvad_se-got_udp.ovpn
     ports:
-      - 9091:9091
+      - 9093:9091
       - ${TRANSMISSION_PORT}:${TRANSMISSION_PORT}
       - ${TRANSMISSION_PORT}:${TRANSMISSION_PORT}/udp
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
     restart: unless-stopped
 
-  transmission-rss:
-    image: nning2/transmission-rss
-    volumes:
-      - ./.transmission-rss/config/transmission-rss.conf:/etc/transmission-rss.conf
-    restart: unless-stopped
+  #transmission-rss:
+    #image: nning2/transmission-rss
+    #volumes:
+      #- ./.transmission-rss/config/transmission-rss.conf:/etc/transmission-rss.conf
+      #restart: unless-stopped

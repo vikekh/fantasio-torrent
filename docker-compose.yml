@@ -44,6 +44,8 @@ services:
     image: haugene/transmission-rss
     links:
       - transmission
+    environment:
+      - RSS_URL=${RSS_URL}
     volumes:
-      - ./.transmission-rss/config/transmission-rss.conf:/etc/transmission-rss.conf
+      - ./transmission-rss.tmpl:/etc/transmission-rss/transmission-rss.tmpl
     restart: unless-stopped

@@ -2,15 +2,19 @@ version: "3.7"
 
 services:
   transmission:
-    #image: linuxserver/transmission
     image: haugene/transmission-openvpn
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      #- TRANSMISSION_WEB_HOME=/transmission-web-control/
       - TRANSMISSION_WEB_UI=transmission-web-control
       - TRANSMISSION_DOWNLOAD_DIR=/downloads
+      - TRANSMISSION_SCRIPT_TORRENT_DONE_ENABLED=true
+      - TRANSMISSION_SCRIPT_TORRENT_DONE_FILENAME=/data/transmission-home/unrar.sh
+      - TRANSMISSION_PEER_PORT=${TRANSMISSION_PORT}
+      - TRANSMISSION_DHT_ENABLED=false
+      - TRANSMISSION_PEX_ENABLED=false
+      - TRANSMISSION_LPD_ENABLED=false
       - CREATE_TUN_DEVICE=true
       - OPENVPN_PROVIDER=${OPENVPN_PROVIDER}
       - OPENVPN_CONFIG=${OPENVPN_CONFIG}
@@ -21,11 +25,10 @@ services:
     volumes:
       - ./.transmission/config:/data/transmission-home
       - ${TRANSMISSION_DOWNLOADS_DIR}:/downloads
-      #- ${TRANSMISSION_DOWNLOADS_DIR}:/data/completed
       - /etc/localtime:/etc/localtime:ro
-      - ./mullvad_se-got_udp.ovpn:/etc/openvpn/mullvad/mullvad_se-got_udp.ovpn
+      - ./${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
     ports:
-      - 9093:9091
+      - 9091:9091
       - ${TRANSMISSION_PORT}:${TRANSMISSION_PORT}
       - ${TRANSMISSION_PORT}:${TRANSMISSION_PORT}/udp
     cap_add:

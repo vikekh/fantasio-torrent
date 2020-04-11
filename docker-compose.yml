@@ -29,8 +29,6 @@ services:
       - ./${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
     ports:
       - 9091:9091
-      - ${TRANSMISSION_PORT}:${TRANSMISSION_PORT}
-      - ${TRANSMISSION_PORT}:${TRANSMISSION_PORT}/udp
     cap_add:
       - NET_ADMIN
     logging:

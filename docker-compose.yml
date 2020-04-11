@@ -40,8 +40,10 @@ services:
         max-size: 10m
     restart: unless-stopped
 
-  #transmission-rss:
-    #image: nning2/transmission-rss
-    #volumes:
-      #- ./.transmission-rss/config/transmission-rss.conf:/etc/transmission-rss.conf
-      #restart: unless-stopped
+  transmission-rss:
+    image: haugene/transmission-rss
+    links:
+      - transmission
+    volumes:
+      - ./.transmission-rss/config/transmission-rss.conf:/etc/transmission-rss.conf
+    restart: unless-stopped

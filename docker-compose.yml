@@ -8,10 +8,11 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - TRANSMISSION_WEB_UI=transmission-web-control
-      - TRANSMISSION_DOWNLOAD_DIR=/downloads
+      - TRANSMISSION_DOWNLOAD_DIR=/downloads/complete
+      - TRANSMISSION_INCOMPLETE_DIR=/downloads/incomplete
       - TRANSMISSION_SCRIPT_TORRENT_DONE_ENABLED=true
       - TRANSMISSION_SCRIPT_TORRENT_DONE_FILENAME=/data/transmission-home/unrar.sh
-      - TRANSMISSION_PEER_PORT=${TRANSMISSION_PORT}
+      - TRANSMISSION_PEER_PORT=${TRANSMISSION_PEER_PORT}
       - TRANSMISSION_DHT_ENABLED=false
       - TRANSMISSION_PEX_ENABLED=false
       - TRANSMISSION_LPD_ENABLED=false
@@ -24,11 +25,11 @@ services:
       - LOCAL_NETWORK=192.168.0.0/16
     volumes:
       - ./.transmission/config:/data/transmission-home
-      - ${TRANSMISSION_DOWNLOADS_DIR}:/downloads
+      - ${DOWNLOADS_DIR}:/downloads
       - /etc/localtime:/etc/localtime:ro
       - ./${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
     ports:
-      - 9091:9091
+      - ${TRANSMISSION_WEB_PORT}:9091
     cap_add:
       - NET_ADMIN
     dns:
@@ -45,7 +46,7 @@ services:
     links:
       - transmission
     environment:
-      - RSS_URL=${RSS_URL}
+      - RSS_URL=${TRANSMISSION_RSS_URL}
     volumes:
-      - ./transmission-rss.tmpl:/etc/transmission-rss/transmission-rss.tmpl
+      - ./transmission-rss/transmission-rss.tmpl:/etc/transmission-rss/transmission-rss.tmpl
     restart: unless-stopped

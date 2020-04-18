@@ -47,6 +47,7 @@ services:
       - transmission
     environment:
       - RSS_URL=${TRANSMISSION_RSS_URL}
+      - TRANSMISSION_DOWNLOAD_DIR=/downloads/complete
     volumes:
       - ./transmission-rss/transmission-rss.tmpl:/etc/transmission-rss/transmission-rss.tmpl
     restart: unless-stopped

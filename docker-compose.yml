@@ -8,6 +8,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - TRANSMISSION_WEB_HOME=/transmission-web-control/
+      - TRANSMISSION_SPEED_LIMIT_UP=${TRANSMISSION_SPEED_LIMIT_UP}
+      - TRANSMISSION_SPEED_LIMIT_UP_${TRANSMISSION_SPEED_LIMIT_UP_ENABLED}
     volumes:
       - ./.transmission/config:/config
       - ${TRANSMISSION_DOWNLOADS_DIR}:/downloads

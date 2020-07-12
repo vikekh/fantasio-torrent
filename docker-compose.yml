@@ -3,6 +3,7 @@ version: "3.7"
 services:
   transmission:
     image: haugene/transmission-openvpn
+    container_name: ${TRANSMISSION_NAME:-transmission}
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -45,6 +46,7 @@ services:
 
   transmission-rss:
     image: haugene/transmission-rss
+    container_name: ${TRANSMISSION_RSS_NAME:-transmission-rss}
     links:
       - transmission
     environment:

@@ -3,7 +3,6 @@ version: "3.7"
 services:
   transmission:
     image: haugene/transmission-openvpn
-    container_name: ${TRANSMISSION_NAME:-transmission}
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -31,8 +30,8 @@ services:
       - ${DOWNLOADS_DIR}:/downloads
       - /etc/localtime:/etc/localtime:ro
       - ./${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
-    ports:
-      - ${TRANSMISSION_WEB_PORT}:9091
+    expose:
+      - ${TRANSMISSION_WEB_PORT}
     cap_add:
       - NET_ADMIN
     dns:
@@ -46,7 +45,6 @@ services:
 
   transmission-rss:
     image: haugene/transmission-rss
-    container_name: ${TRANSMISSION_RSS_NAME:-transmission-rss}
     links:
       - transmission
     environment:

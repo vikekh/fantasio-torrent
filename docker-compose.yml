@@ -1,9 +1,9 @@
 version: "3.7"
 
 services:
-  transmission:
+  transmission-viktor:
     image: haugene/transmission-openvpn
-    container_name: transmission
+    container_name: transmission-viktor
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -32,7 +32,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
     expose:
-      - ${TRANSMISSION_WEB_PORT}
+      - 9091
     cap_add:
       - NET_ADMIN
     dns:
@@ -44,11 +44,25 @@ services:
         max-size: 10m
     networks:
       - reverse-proxy
-      - torrent
+      - torrent-viktor
+    restart: unless-stopped
+
+  transmission-rss-viktor:
+    image: haugene/transmission-rss
+    container_name: transmission-rss-viktor
+    links:
+      - transmission-viktor
+    environment:
+      - RSS_URL=${TRANSMISSION_RSS_URL}
+      - TRANSMISSION_DOWNLOAD_DIR=/downloads/complete
+    volumes:
+      - ./.transmission-rss.tmpl:/etc/transmission-rss/transmission-rss.tmpl
+    networks:
+      - torrent-viktor
     restart: unless-stopped
 
 networks:
   reverse-proxy:
     external: true
-  torrent:
+  torrent-viktor:
     external: true

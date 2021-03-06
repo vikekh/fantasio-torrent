@@ -3,6 +3,7 @@ version: "3.7"
 services:
   transmission:
     image: haugene/transmission-openvpn
+    container_name: transmission
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -41,15 +42,13 @@ services:
       driver: json-file
       options:
         max-size: 10m
+    networks:
+      - reverse-proxy
+      - torrent
     restart: unless-stopped
 
-  transmission-rss:
-    image: haugene/transmission-rss
-    links:
-      - transmission
-    environment:
-      - RSS_URL=${TRANSMISSION_RSS_URL}
-      - TRANSMISSION_DOWNLOAD_DIR=/downloads/complete
-    volumes:
-      - ./.transmission-rss.tmpl:/etc/transmission-rss/transmission-rss.tmpl
-    restart: unless-stopped
+networks:
+  reverse-proxy:
+    external: true
+  torrent:
+    external: true

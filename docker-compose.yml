@@ -27,7 +27,7 @@ services:
       - WEBPROXY_ENABLED=false
       - LOCAL_NETWORK=192.168.0.0/16
     volumes:
-      - ./.transmission/config:/data/transmission-home
+      - transmission-config:/data/transmission-home
       - ${DOWNLOADS_DIR}:/downloads
       - /etc/localtime:/etc/localtime:ro
       - ./${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
@@ -47,8 +47,12 @@ services:
       - torrent
     restart: unless-stopped
 
+volumes:
+  transmission-config:
+    name: transmission-config
+
 networks:
   reverse-proxy:
     external: true
   torrent:
-    external: true
+    name: torrent

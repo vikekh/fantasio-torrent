@@ -27,7 +27,7 @@ services:
       - WEBPROXY_ENABLED=false
       - LOCAL_NETWORK=192.168.0.0/16
     volumes:
-      - transmission-config-viktor:/data/transmission-home
+      - transmission-viktor-config:/data/transmission-home
       - ${DOWNLOADS_DIR}:/downloads
       - /etc/localtime:/etc/localtime:ro
       - ./${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
@@ -62,8 +62,8 @@ services:
     restart: unless-stopped
 
 volumes:
-  transmission-config-viktor:
-    name: transmission-config-viktor
+  transmission-viktor-config:
+    name: transmission-viktor-config
 
 networks:
   reverse-proxy:

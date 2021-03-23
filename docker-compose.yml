@@ -49,14 +49,25 @@ services:
       - torrent
     restart: unless-stopped
 
+  transmission-rss:
+    image: haugene/transmission-rss
+    container_name: ${TRANSMISSION_RSS_CONTAINER_NAME}
+    links:
+      - ${TRANSMISSION_CONTAINER_NAME}
+    volumes:
+      - ./.transmission-rss/config.yml:/etc/transmission-rss.conf
+    networks:
+      - torrent
+    restart: unless-stopped
+
 volumes:
   transmission-config:
-    name: transmission-config
+    name: ${TRANSMISSION_CONFIG_VOLUME_NAME}
   transmission-data:
-    name: transmission-data
+    name: ${TRANSMISSION_DATA_VOLUME_NAME}
 
 networks:
   reverse-proxy:
     external: true
   torrent:
-    name: torrent
+    name: ${NETWORK_NAME}

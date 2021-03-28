@@ -29,12 +29,12 @@ services:
     volumes:
       - transmission-config:/config
       - transmission-data:/data
-      - ./scripts/unrar.sh:/data/transmission-home/unrar.sh
+      - ${TRANSMISSION_UNRAR_SCRIPT}:/data/transmission-home/unrar.sh
       - ${DOWNLOADS_DIR}:/downloads
       - /etc/localtime:/etc/localtime:ro
       - ./.transmission/${OPENVPN_CONFIG}.ovpn:/etc/openvpn/${OPENVPN_CONFIG_DIR}/${OPENVPN_CONFIG}.ovpn
     expose:
-      - ${TRANSMISSION_WEB_PORT}
+      - 9091
     cap_add:
       - NET_ADMIN
     dns:
@@ -53,7 +53,7 @@ services:
     image: haugene/transmission-rss
     container_name: ${TRANSMISSION_RSS_CONTAINER_NAME}
     links:
-      - ${TRANSMISSION_CONTAINER_NAME}
+      - transmission
     volumes:
       - ./.transmission-rss/config.yml:/etc/transmission-rss.conf
     networks:

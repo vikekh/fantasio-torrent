@@ -18,8 +18,8 @@ mkdir $BACKUP_DIR
 docker stop $TRANSMISSION_CONTAINER_NAME
 docker stop $TRANSMISSION_RSS_CONTAINER_NAME
 
-docker run --rm -v $TRANSMISSION_CONFIG_VOLUME_NAME:/data -v $BACKUP_DIR:/backup ubuntu tar czvf /backup/$TRANSMISSION_CONFIG_VOLUME_NAME.tar.gz /data
-docker run --rm -v $TRANSMISSION_DATA_VOLUME_NAME:/data -v $BACKUP_DIR:/backup ubuntu tar czvf /backup/$TRANSMISSION_DATA_VOLUME_NAME.tar.gz /data
+docker run --rm -v $TRANSMISSION_CONFIG_VOLUME_NAME:/data -v $BACKUP_DIR:/backup ubuntu tar cvf /backup/$TRANSMISSION_CONFIG_VOLUME_NAME.tar /data
+docker run --rm -v $TRANSMISSION_DATA_VOLUME_NAME:/data -v $BACKUP_DIR:/backup ubuntu tar cvf /backup/$TRANSMISSION_DATA_VOLUME_NAME.tar /data
 
 docker start $TRANSMISSION_CONTAINER_NAME
 docker start $TRANSMISSION_RSS_CONTAINER_NAME

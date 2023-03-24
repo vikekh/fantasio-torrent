@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   transmission:
-    image: haugene/transmission-openvpn
+    image: haugene/transmission-openvpn:3.7.1
     container_name: ${TRANSMISSION_CONTAINER_NAME}
     environment:
       - PUID=${PUID}
